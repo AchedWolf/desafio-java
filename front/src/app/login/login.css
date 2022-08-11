@@ -1,0 +1,26 @@
+.formulario {
+    display: block;
+    min-width: 40%;
+    min-height: 20%;
+    margin: auto;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+.center {
+    display: flex;
+    margin: auto;
+}
+
+.row {
+    margin: 10px;
+}
+
+.col {
+    border: 1px solid red;
+}
+
+label {
+    width: 100%;
+
+}
