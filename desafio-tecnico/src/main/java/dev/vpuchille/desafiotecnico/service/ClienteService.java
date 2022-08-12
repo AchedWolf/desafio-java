@@ -21,7 +21,7 @@ public class ClienteService {
         return list;
     }
 
-    public Cliente getById(Integer cpf) {
+    public Cliente getById(Double cpf) {
         Optional<Cliente> cliente = repository.findById(cpf);
 
         if(cliente.isEmpty())
@@ -50,7 +50,7 @@ public class ClienteService {
             return "Cliente não cadastrado";
     }
 
-    public String delete(Integer cpf) {
+    public String delete(Double cpf) {
         Cliente aux = this.getById(cpf);
         if(aux != null) {
             repository.deleteById(cpf);

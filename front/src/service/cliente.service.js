@@ -4,29 +4,36 @@ export class ClienteService {
 
     constructor(username, password) {
         this.state = {
-            basicUrl: "localhost:8080/",
+            basicUrl: "http://localhost:8080/",
             auth: {
                 username: username,
-                password: password,
+                password: password
+            },
+            headers: {
+                "Content-Type": "application/json"
             }
         }
     }
 
-    getAll() {
-        axios({
+    async getAll() {
+        return axios({
             method: 'get',
-            url: this.basicUrl + 'cliente',
-            auth: this.auth,
+            url: this.state.basicUrl + 'cliente',
+            auth: this.state.auth,
+            headers: this.state.headers,
         }).then(function (response) {
             return response;
+        }).catch(function (error) {
+            return error;
         });
     }
 
     getByCpf(cpf) {
         axios({
             method: 'get',
-            url: this.basicUrl + 'cliente/' + cpf,
-            auth: this.auth,
+            url: this.state.basicUrl + 'cliente/' + cpf,
+            auth: this.state.auth,
+            headers: this.state.headers,
         }).then(function (response) {
             return response;
         });
@@ -35,9 +42,10 @@ export class ClienteService {
     include(cliente) {
         axios({
             method: 'post',
-            url: this.basicUrl + 'cliente',
-            auth: this.auth,
-            data: cliente
+            url: this.state.basicUrl + 'cliente',
+            auth: this.state.auth,
+            data: cliente,
+            headers: this.state.headers,
         }).then(function (response) {
             return response;
         });
@@ -46,9 +54,10 @@ export class ClienteService {
     update(cliente) {
         axios({
             method: 'put',
-            url: this.basicUrl + 'cliente',
-            auth: this.auth,
-            data: cliente
+            url: this.state.basicUrl + 'cliente',
+            auth: this.state.auth,
+            data: cliente,
+            headers: this.state.headers,
         }).then(function (response) {
             return response;
         });
@@ -57,8 +66,9 @@ export class ClienteService {
     delete(cpf) {
         axios({
             method: 'delete',
-            url: this.basicUrl + 'cliente/' + cpf,
-            auth: this.auth,
+            url: this.state.basicUrl + 'cliente/' + cpf,
+            auth: this.state.auth,
+            headers: this.state.headers,
         }).then(function (response) {
             return response;
         });
