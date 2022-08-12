@@ -40,11 +40,13 @@ export class Tabela extends React.Component {
 		const element = document.getElementById(cpf);
 		element.remove();
 
-
 		this.loadList();
 	}
 
 	async edit(cpf) {
+		var cliente = this.state.listCliente.find(cli => cli.cpf === cpf);
+		this.updateValue('idUpdate', this.state.listCliente.indexOf(cliente));
+		this.updateValue('isUpdate', true);
 		this.loadList();
 	}
 
@@ -56,6 +58,15 @@ export class Tabela extends React.Component {
 		txt = txt.split('T')[0];
 		var aux = txt.split('-');
 		return (aux[2] + '/' + aux[1] + '/' + aux[0]);
+	}
+
+	formatCpf(cpf) {
+		cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
+			function (regex, argumento1, argumento2, argumento3, argumento4) {
+				return argumento1 + '.' + argumento2 + '.' + argumento3 + '-' + argumento4;
+			});
+
+		return cpf;
 	}
 
 	render() {
@@ -97,7 +108,7 @@ export class Tabela extends React.Component {
 						{
 							this.state.listCliente.map(cli =>
 								<tr id={cli.cpf} key={cli.cpf}>
-									<td class="cell"> {cli.cpf}</td>
+									<td class="cell"> {this.formatCpf(cli.cpf)}</td>
 									<td class="cell"> {cli.name}</td>
 									<td class="cell"> {this.formatData(cli.dataNasc)}</td>
 									<td class="cellAction">

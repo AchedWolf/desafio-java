@@ -47,7 +47,7 @@ export class Formulario extends React.Component {
       value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
         function (regex, argumento1, argumento2, argumento3, argumento4) {
           return argumento1 + '.' + argumento2 + '.' + argumento3 + '-' + argumento4;
-        })
+        });
     }
 
     await this.updateValue(name, value);
