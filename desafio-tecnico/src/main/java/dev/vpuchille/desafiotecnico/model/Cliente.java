@@ -1,5 +1,7 @@
 package dev.vpuchille.desafiotecnico.model;
 
+import org.springframework.boot.jackson.JsonObjectDeserializer;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,32 +10,34 @@ import java.time.LocalDateTime;
 @Entity(name = "cliente")
 public class Cliente {
 
+    public Cliente() {}
+
     @Id
-    private Integer cpf;
+    public Double cpf;
 
     @Column(nullable = false)
-    private String name;
+    public String name;
 
     @Column
-    private String genero;
+    public String genero;
 
     @Column
-    private String email;
+    public String email;
 
     @Column(nullable = false)
-    private LocalDateTime dataNasc;
+    public LocalDateTime dataNasc;
 
     @Column
-    private String nat;
+    public String nat;
 
     @Column
-    private String nac;
+    public String nac;
 
-    public Integer getCpf() {
+    public Double getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(Double cpf) {
         this.cpf = cpf;
     }
 
@@ -84,4 +88,5 @@ public class Cliente {
     public void setNac(String nac) {
         this.nac = nac;
     }
+
 }

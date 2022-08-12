@@ -1,27 +1,31 @@
 package dev.vpuchille.desafiotecnico.controller;
 
+import com.sun.istack.NotNull;
 import dev.vpuchille.desafiotecnico.model.Cliente;
 import dev.vpuchille.desafiotecnico.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = ("/cliente"))
+@Validated
 public class ClienteController {
 
     @Autowired
     private ClienteService service;
 
     @GetMapping
-    public List<Cliente> getAll() {
-        return service.getAll();
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok().body(service.getAll());
     }
 
     @GetMapping(path = "/{cpf}")
-    public ResponseEntity getById(@PathVariable("cpf") Integer cpf){
+    public ResponseEntity getById(@PathVariable("cpf") Double cpf){
         return ResponseEntity.ok().body(service.getById(cpf));
     }
 
@@ -36,7 +40,7 @@ public class ClienteController {
     }
 
     @DeleteMapping(path = "/{cpf}")
-    public ResponseEntity delete(@PathVariable("cpf") Integer cpf) {
+    public ResponseEntity delete(@PathVariable("cpf") Double cpf) {
         return ResponseEntity.ok().body(service.delete(cpf));
     }
 

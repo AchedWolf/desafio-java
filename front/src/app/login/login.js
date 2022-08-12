@@ -1,14 +1,14 @@
 import React from 'react';
 import './login.css';
-import { Formulario } from '../formulario/formulario';
 import { ClienteService } from '../../service/cliente.service';
+import { Tabela } from '../tabela/tabela';
 
 export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: 'admin',
+      password: '1234',
       isLogged: false
     }
 
@@ -28,22 +28,24 @@ export class Login extends React.Component {
     event.preventDefault();
   }
 
-  login() {
+  async login() {
     var service = new ClienteService(this.state.username, this.state.password);
-    var result = service.getAll();
-    if (result.status === 200) {
-      this.setState({ isLogged: true });
-    }
+    await service.getAll().then((response) => {
+      if (response.status === 200) {
+        this.setState({ isLogged: true });
+      }
+
+    });
   }
 
   render() {
     if (this.state.isLogged)
-      return (<Formulario username={this.state.username} password={this.state.password} ></Formulario>);
+      return (<Tabela username={this.state.username} password={this.state.password} ></Tabela>);
 
     return (
-      <form class="container formulario" onSubmit={this.handleSubmit}>
+      <form class="container login" onSubmit={this.handleSubmit}>
         <div class="row center">
-          <label>
+          <label class="title">
             Seja bem vindo!
           </label>
         </div>
@@ -51,19 +53,19 @@ export class Login extends React.Component {
         <div class="row">
           <label>
             Usuario
-            <input name="username" type="text" value={this.state.username} onChange={this.handleInputChange} />
           </label>
+          <input class="input" name="username" type="text" value={this.state.username} onChange={this.handleInputChange} />
         </div>
 
         <div class="row">
           <label>
             Senha
-            <input name="password" type="password" value={this.state.password} onChange={this.handleInputChange} />
           </label>
+          <input class="input" name="password" type="password" value={this.state.password} onChange={this.handleInputChange} />
         </div>
 
         <div class="row">
-          <input type="submit" value="Enviar" />
+          <input class="center" type="submit" value="Enviar" />
         </div>
       </form>
     );

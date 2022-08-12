@@ -44,7 +44,10 @@ export class Formulario extends React.Component {
 
     if (name === 'cpf') {
       value = value.replace(/\D/g, "");
-      value = value.replace(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/);
+      value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
+        function (regex, argumento1, argumento2, argumento3, argumento4) {
+          return argumento1 + '.' + argumento2 + '.' + argumento3 + '-' + argumento4;
+        });
     }
 
     await this.updateValue(name, value);
@@ -54,7 +57,7 @@ export class Formulario extends React.Component {
     this.setState({ [name]: value });
   }
 
-  async handleSubmit(event) {
+  async handleSubmit() {
     await this.validate();
 
     if (
@@ -64,11 +67,11 @@ export class Formulario extends React.Component {
     ) {
 
       var aux = {
-        cpf: this.state.cpf,
+        cpf: parseInt((this.state.cpf.replaceAll('.', '')).replace('-', '')),
         name: this.state.name,
         genero: this.state.genero,
         email: this.state.email,
-        dataNasc: this.state.dataNasc,
+        dataNasc: this.state.dataNasc + 'T23:59:59.000',
         nat: this.state.nat,
         nac: this.state.nac,
       }
@@ -86,8 +89,6 @@ export class Formulario extends React.Component {
       else
         alert("Falha na chamada")
     }
-
-    event.preventDefault();
   }
 
   async validate() {
@@ -108,7 +109,7 @@ export class Formulario extends React.Component {
     }
 
     // Validação CPF
-    if (this.state.cpf.length < 14 && this.state.cpf.match(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)) {
+    if (this.state.cpf.length === 14 && this.state.cpf.match(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)) {
       await this.updateValue('isCpfValid', true);
     }
     else {
@@ -118,70 +119,74 @@ export class Formulario extends React.Component {
     // Validação Email
     if (this.state.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) || this.state.email === '') {
       await this.updateValue('isEmailValid', true);
-      console.log("email ok");
     }
     else {
       await this.updateValue('isEmailValid', false);
-      console.log("email falhou");
     }
 
+    return;
   }
 
   render() {
     return (
-      <form class="container formulario" onSubmit={this.handleSubmit}>
+      <form class="container formulario">
+        <div class="row">
+          <label class="title">
+            Formulario de Cliente
+          </label>
+        </div>
+
         <div class="row">
           <label>
             Nome
-            <input required name="name" type="text" value={this.state.user} onChange={this.validateInput} />
           </label>
+          <input class="input" required name="name" type="text" value={this.state.user} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             Gênero
-            <input name="genero" type="text" value={this.state.genero} onChange={this.validateInput} />
           </label>
+          <input class="input" name="genero" type="text" value={this.state.genero} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             E-mail
-            <input name="email" type="text" value={this.state.email} onChange={this.validateInput} />
           </label>
+          <input class="input" name="email" type="text" value={this.state.email} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             Data de Nascimento
-            <input required name="dataNasc" type="date" value={this.state.dataNasc} onChange={this.validateInput} />
           </label>
+          <input class="input" required name="dataNasc" type="date" value={this.state.dataNasc} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             Naturalidade
-            <input name="nat" type="text" value={this.state.nat} onChange={this.validateInput} />
           </label>
+          <input class="input" name="nat" type="text" value={this.state.nat} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             Nacionalidade
-            <input name="nac" type="text" value={this.state.nac} onChange={this.validateInput} />
           </label>
+          <input class="input" name="nac" type="text" value={this.state.nac} onChange={this.validateInput} />
         </div>
 
         <div class="row">
           <label>
             CPF
-            <input required maxLength={14} name="cpf" type="text" value={this.state.cpf} onChange={this.validateInput} pattern={/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/} />
           </label>
-          <label ></label>
+          <input class="input" required maxLength={11} name="cpf" type="text" value={this.state.cpf} onChange={this.validateInput} pattern={/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/} />
         </div>
 
         <div class="row">
-          <input type="submit" value="Enviar" />
+          <input class="center" type="button" value="Enviar" onClick={this.handleSubmit} />
         </div>
       </form>
     );

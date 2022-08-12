@@ -1,6 +1,6 @@
 .formulario {
     display: block;
-    min-width: 40%;
+    min-width: 47%;
     min-height: 20%;
     margin: auto;
     border: 1px black solid;
@@ -19,4 +19,18 @@
 label {
     width: auto;
 
+}
+
+.input {
+    margin-left: auto;
+}
+
+.center {
+    display: flex;
+    margin: auto;
+}
+
+.title {
+    margin: 0 auto;
+    font-size: large;
 }
